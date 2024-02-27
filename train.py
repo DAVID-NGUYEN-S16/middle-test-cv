@@ -197,7 +197,6 @@ def train ():
             model,
             val_loader,
             loss_fn,
-            config=config,
             data_name="val"
         )
         
