@@ -35,7 +35,6 @@ class ViTLayer(nn.Module):
 
     def __init__(self, config):
         super().__init__()
-        self.chunk_size_feed_forward = config.chunk_size_feed_forward
         self.seq_len_dim = 1
         self.attention = ViTAttention(config)
         self.intermediate = ViTIntermediate(config)
