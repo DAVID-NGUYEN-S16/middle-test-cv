@@ -5,15 +5,38 @@ from .embedding import ViTEmbeddings
 from .encoder import ViTEncoder
 from transformers.modeling_outputs import BaseModelOutputWithPooling
 
-class ViTPreTrainedModel(PreTrainedModel):
-    """
-    An abstract class to handle weights initialization and a simple interface for downloading and loading pretrained
-    models.
-    """
 
-    config_class = ViTConfig
-    base_model_prefix = "vit"
+    
+class ViTPooler(nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        self.dense = nn.Linear(config.hidden_size, config.hidden_size)
+        self.activation = nn.Tanh()
 
+    def forward(self, hidden_states):
+        # We "pool" the model by simply taking the hidden state corresponding
+        # to the first token.
+        first_token_tensor = hidden_states[:, 0]
+        pooled_output = self.dense(first_token_tensor)
+        pooled_output = self.activation(pooled_output)
+        return pooled_output
+
+class ViTModel(nn.Module):
+    def __init__(self, config, add_pooling_layer=True):
+        super().__init__(config)
+        self.config = config
+
+        self.embeddings = ViTEmbeddings(config)
+        self.encoder = ViTEncoder(config)
+
+        self.layernorm = nn.LayerNorm(config.hidden_size, eps=config.layer_norm_eps)
+        self.pooler = ViTPooler(config) if add_pooling_layer else None
+
+        self._init_weights()
+
+    def get_input_embeddings(self):
+        return self.embeddings.patch_embeddings
+   
     def _init_weights(self, module):
         """Initialize the weights"""
         if isinstance(module, (nn.Linear, nn.Conv2d)):
@@ -29,37 +52,6 @@ class ViTPreTrainedModel(PreTrainedModel):
         elif isinstance(module, nn.LayerNorm):
             module.bias.data.zero_()
             module.weight.data.fill_(1.0)
-class ViTPooler(nn.Module):
-    def __init__(self, config):
-        super().__init__()
-        self.dense = nn.Linear(config.hidden_size, config.hidden_size)
-        self.activation = nn.Tanh()
-
-    def forward(self, hidden_states):
-        # We "pool" the model by simply taking the hidden state corresponding
-        # to the first token.
-        first_token_tensor = hidden_states[:, 0]
-        pooled_output = self.dense(first_token_tensor)
-        pooled_output = self.activation(pooled_output)
-        return pooled_output
-
-class ViTModel(ViTPreTrainedModel):
-    def __init__(self, config, add_pooling_layer=True):
-        super().__init__(config)
-        self.config = config
-
-        self.embeddings = ViTEmbeddings(config)
-        self.encoder = ViTEncoder(config)
-
-        self.layernorm = nn.LayerNorm(config.hidden_size, eps=config.layer_norm_eps)
-        self.pooler = ViTPooler(config) if add_pooling_layer else None
-
-        self.init_weights()
-
-    def get_input_embeddings(self):
-        return self.embeddings.patch_embeddings
-   
-
 
     def forward(
         self,
