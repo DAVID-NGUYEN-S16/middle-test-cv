@@ -20,10 +20,15 @@ class ViTPooler(nn.Module):
         pooled_output = self.dense(first_token_tensor)
         pooled_output = self.activation(pooled_output)
         return pooled_output
+class ConfigClass:
+    def __init__(self, **entries):
+        self.__dict__.update(entries)
 
 class ViTModel(nn.Module):
     def __init__(self, config, add_pooling_layer=True):
         super().__init__()
+        config  = ConfigClass(**config)
+
         self.config = config
 
         self.embeddings = ViTEmbeddings(config)
