@@ -4,7 +4,6 @@ from torchvision.transforms import InterpolationMode
 import pandas as pd
 from PIL import Image
 import torch
-from .train import label2id
 class DatasetAnimal(Dataset):
     def __init__(self, data_path_file, train=True, global_path=None):
         super(Dataset, self).__init__()
