@@ -23,7 +23,7 @@ class ViTPooler(nn.Module):
 
 class ViTModel(nn.Module):
     def __init__(self, config, add_pooling_layer=True):
-        super().__init__(config)
+        super().__init__()
         self.config = config
 
         self.embeddings = ViTEmbeddings(config)
