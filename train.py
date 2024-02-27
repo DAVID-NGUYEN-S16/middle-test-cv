@@ -19,7 +19,7 @@ with open("/kaggle/working/middle-test-cv/config.json", 'r') as file:
     
 wandb.login(key=config['key_wandb'])
 
-train_loader, val_loader = load_data()
+train_loader, val_loader = load_data(config)
 
 # %%
 def validate(
