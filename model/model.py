@@ -11,7 +11,7 @@ class ViTPooler(nn.Module):
     def __init__(self, config):
         super().__init__()
         self.dense = nn.Linear(config.hidden_size, config.hidden_size)
-        self.activation = nn.Tanh()
+        self.activation = nn.GELU()
 
     def forward(self, hidden_states):
         # We "pool" the model by simply taking the hidden state corresponding
@@ -37,25 +37,25 @@ class ViTModel(nn.Module):
         self.layernorm = nn.LayerNorm(config.hidden_size, eps=config.layer_norm_eps)
         self.pooler = ViTPooler(config) if add_pooling_layer else None
 
-        self._init_weights()
+        # self._init_weights()
 
     def get_input_embeddings(self):
         return self.embeddings.patch_embeddings
    
-    def _init_weights(self):
-        """Initialize the weights"""
-        for module in self.modules():
-            if isinstance(module, (nn.Linear, nn.Conv2d)):
-                module.weight.data.normal_(mean=0.0, std=self.config.initializer_range)
-                if module.bias is not None:
-                    module.bias.data.zero_()
-            elif isinstance(module, nn.Embedding):
-                module.weight.data.normal_(mean=0.0, std=self.config.initializer_range)
-                if module.padding_idx is not None:
-                    module.weight.data[module.padding_idx].zero_()
-            elif isinstance(module, nn.LayerNorm):
-                module.bias.data.zero_()
-                module.weight.data.fill_(1.0)
+    # def _init_weights(self):
+    #     """Initialize the weights"""
+    #     for module in self.modules():
+    #         if isinstance(module, (nn.Linear, nn.Conv2d)):
+    #             module.weight.data.normal_(mean=0.0, std=self.config.initializer_range)
+    #             if module.bias is not None:
+    #                 module.bias.data.zero_()
+    #         elif isinstance(module, nn.Embedding):
+    #             module.weight.data.normal_(mean=0.0, std=self.config.initializer_range)
+    #             if module.padding_idx is not None:
+    #                 module.weight.data[module.padding_idx].zero_()
+    #         elif isinstance(module, nn.LayerNorm):
+    #             module.bias.data.zero_()
+    #             module.weight.data.fill_(1.0)
 
     def forward(
         self,
