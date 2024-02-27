@@ -65,7 +65,6 @@ class ViTModel(nn.Module):
     ):
 
 
-        return_dict = return_dict if return_dict is not None else self.config.use_return_dict
 
         if pixel_values is None:
             raise ValueError("You have to specify pixel_values")
