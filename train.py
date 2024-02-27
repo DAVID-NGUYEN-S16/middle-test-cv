@@ -146,7 +146,7 @@ run = wandb.init(
 class VITClassification(nn.Module):
     def __init__(self, config):
         super().__init__()
-        self.model = ViTModel(config["config_model"])
+        self.model = ViTModel(config = config["config_model"])
 
         self.heads = nn.Sequential(
             nn.Dropout(p=0.2, inplace=True),
