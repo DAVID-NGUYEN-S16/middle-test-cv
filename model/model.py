@@ -76,13 +76,13 @@ class ViTModel(nn.Module):
             head_mask=head_mask,
             return_dict=return_dict,
         )
+        
         sequence_output = encoder_outputs[0]
+        
         sequence_output = self.layernorm(sequence_output)
-        pooled_output = self.pooler(sequence_output) if self.pooler is not None else None
-
-        if not return_dict:
-            return (sequence_output, pooled_output) + encoder_outputs[1:]
-
+        
+        pooled_output = self.pooler(sequence_output) 
+        
         return BaseModelOutputWithPooling(
             last_hidden_state=sequence_output,
             pooler_output=pooled_output,
