@@ -231,7 +231,8 @@ def train ():
         info_epoch.to_csv(f"{config['storage_output']}/info_epoch.csv")
     
 
-train()
+if __name__ == "__main__":
 
+    train()  # Gọi hàm train()
 
 
