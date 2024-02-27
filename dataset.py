@@ -4,6 +4,7 @@ from torchvision.transforms import InterpolationMode
 import pandas as pd
 from PIL import Image
 import torch
+label2id = None
 class DatasetAnimal(Dataset):
     def __init__(self, data_path_file, train=True, global_path=None):
         super(Dataset, self).__init__()
@@ -54,6 +55,8 @@ class DatasetAnimal(Dataset):
         return image, labels
     
 def load_data(config):
+    global label2id 
+    label2id = config['label2id']
     train_dataset = DatasetAnimal(config['path_train'])
     val_dataset = DatasetAnimal(config['path_train'], train=False)
     train_loader = DataLoader(train_dataset,batch_size=config['batch_size'],shuffle=True)
