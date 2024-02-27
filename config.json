@@ -1,0 +1,39 @@
+{
+    "label2id": {
+        "cat": 0,
+        "dog": 1,
+        "elephant": 2,
+        "horse": 3,
+        "lion": 4
+    }, 
+    "storage_output": "", 
+    "early_stopping": 17, 
+    "key_wandb": "ac12c873f730f05f115d320f73a1a908c5db8470", 
+    "path_train": "/kaggle/working/train.csv", 
+    "path_test": "/kaggle/working/test.csv", 
+    "batch_size": 100, 
+    "config_model":  {
+        "gradient_accumulation_steps": 1, 
+        "num_epochs": 150, 
+        "num_classes": 5, 
+        "lr": 0.001, 
+        "attention_probs_dropout_prob": 0.0,
+        "encoder_stride": 16,
+        "hidden_act": "gelu",
+        "hidden_dropout_prob": 0.0,
+        "hidden_size": 768,
+        "image_size": 224,
+        "initializer_range": 0.02,
+        "intermediate_size": 3072,
+        "layer_norm_eps": 1e-12,
+        "model_type": "vit",
+        "num_attention_heads": 12,
+        "num_channels": 3,
+        "num_hidden_layers": 12,
+        "patch_size": 16,
+        "qkv_bias": true,
+        "transformers_version": "4.38.1"
+      }
+
+
+}
