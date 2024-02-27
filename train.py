@@ -14,7 +14,7 @@ from model.model import ViTModel
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
-with open("config.json", 'r') as file:
+with open("/kaggle/working/middle-test-cv/config.json", 'r') as file:
     config = json.load(file)
     
 wandb.login(key=config['key_wandb'])
