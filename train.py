@@ -144,13 +144,13 @@ run = wandb.init(
 )
 
 class VITmodel(nn.Module):
-    def __init__(self, output_size):
+    def __init__(self, config):
         super().__init__()
-        self.model = ViTModel()
+        self.model = ViTModel(config["config_model"])
 
         self.heads = nn.Sequential(
             nn.Dropout(p=0.2, inplace=True),
-            nn.Linear(768, output_size),
+            nn.Linear(768, config["config_model"]["num_classes"]),
         )
 
     def forward(self, x):
@@ -163,7 +163,7 @@ class VITmodel(nn.Module):
 def train ():
     print(f"############### Mode {config['config_model']['model_type']}  ###############")
 
-    model = VITmodel(config["config_model"]["num_classes"])
+    model = VITmodel(config)
     print(model)
     model.to(device=device)
 
