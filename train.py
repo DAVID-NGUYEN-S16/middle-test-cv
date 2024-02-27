@@ -143,7 +143,7 @@ run = wandb.init(
     tags = "VIT"
 )
 
-class VITmodel(nn.Module):
+class VITClassification(nn.Module):
     def __init__(self, config):
         super().__init__()
         self.model = ViTModel(config["config_model"])
@@ -163,7 +163,7 @@ class VITmodel(nn.Module):
 def train ():
     print(f"############### Mode {config['config_model']['model_type']}  ###############")
 
-    model = VITmodel(config)
+    model = VITClassification(config)
     print(model)
     model.to(device=device)
 
